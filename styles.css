@@ -8,9 +8,122 @@
 
 body {
     min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 img {
     max-width: 100%;
     display: block;
+}
+
+:root {
+    --border-width: 4px;
+    --border: var(--border-width) solid black;
+    --cell-size: 80px;
+    --mark-size: calc(80%);
+    --cross-width: 8px;
+}
+
+/* Game */
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    width: max-content;
+    place-items: center;
+}
+
+.cell {
+    width: calc(var(--cell-size));
+    height: calc(var(--cell-size));
+    border: var(--border);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cell:nth-of-type(3n),
+.cell:nth-of-type(3n + 1) {
+    border-inline: none;
+    width: calc(var(--cell-size));
+}
+
+.cell {
+    border-block: none;
+    width: calc(var(--cell-size) + 8px);
+}
+
+.cell:nth-of-type(4),
+.cell:nth-of-type(5),
+.cell:nth-of-type(6) {
+    border-block: var(--border);
+    height: calc(var(--cell-size) + 8px);
+}
+
+/* Circle Player */
+
+.circle {
+    width: calc(var(--mark-size) - 15%);
+    height: calc(var(--mark-size) - 15%);
+
+    background: black;
+    border-radius: 50%;
+
+    position: relative;
+}
+
+.circle::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+
+    background: white;
+    border-radius: 50%;
+}
+
+/* Cross Player */
+
+.cross {
+    width: var(--mark-size);
+    height: var(--mark-size);
+
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cross::before,
+.cross::after {
+    content: "";
+    position: absolute;
+    background: black;
+
+    width: 100%;
+    height: var(--cross-width);
+    border-radius: 9999px;
+}
+
+.cross::before {
+    transform: translateY(-50%) rotate(45deg);
+    top: 50%;
+}
+
+.cross::after {
+    transform: translateY(-50%) rotate(-45deg);
+    top: 50%;
+}
+
+/* Result */
+
+.result {
+    position: absolute;
+    top: 0.5rem;
+    left: 1rem;
+    font-size: 2rem;
 }
