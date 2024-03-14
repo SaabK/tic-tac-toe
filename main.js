@@ -54,34 +54,32 @@ function calculatePositions() {
         )
     );
 
-    if (circlePositions.length >= 3 || crossPositions.length >= 3) {
-        const circleResult = determineWinner("circle", circlePositions);
-        const crossResult = determineWinner("cross", crossPositions);
-
-        // console.log(circleResult);
-        // console.log(crossResult);
-
-        if (!circleResult && !crossResult) return;
-        else if (circleResult) announceResult("circle");
-        else if (crossResult) announceResult("cross");
-
-        gameFinished = true;
-    }
+    if (circlePositions.length >= 3 || crossPositions.length >= 3)
+        result.textContent = determineWinner(circlePositions, crossPositions);
 }
 
 function announceResult(player) {
     result.textContent = `${player} won !!!`;
 }
 
-function determineWinner(playerName, playerPositions) {
-    const won = wins
+function determineWinner(circlePositions, crossPositions) {
+    const circleResult = wins
         .map((win) => {
-            return win.every((value) => playerPositions.includes(value));
+            return win.every((value) => circlePositions.includes(value));
         })
         .some((value) => value === true);
 
-    // console.log(won);
-    return `${won ? playerName : ""}`;
+    const crossResult = wins
+        .map((win) => {
+            return win.every((value) => crossPositions.includes(value));
+        })
+        .some((value) => value === true);
+
+    if (!circleResult && !crossResult) return;
+
+    gameFinished = true;
+
+    return circleResult ? "Circle Wins !!!" : "Cross Wins !!!";
 }
 
 function changePlayer() {
